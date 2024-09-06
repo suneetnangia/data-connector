@@ -22,7 +22,11 @@ public class MqttDataSink : IDataSink
 
     private readonly string _baseTopic;
 
-    public MqttDataSink(ILogger logger, MqttSessionClient mqttSessionClient, string host, int port, string? clientId, bool useTls, string baseTopic)
+    private int _initialBackoffDelayInMilliseconds;
+
+    private int _maxBackoffDelayInMilliseconds;
+
+    public MqttDataSink(ILogger logger, MqttSessionClient mqttSessionClient, string host, int port, string? clientId, bool useTls, string baseTopic, int initialBackoffDelayInMilliseconds = 500, int maxBackoffDelayInMilliseconds = 10_000)
     {
         _logger = logger;
         _mqttSessionClient = mqttSessionClient ?? throw new ArgumentNullException(nameof(mqttSessionClient));
@@ -31,6 +35,8 @@ public class MqttDataSink : IDataSink
         _clientId = clientId ?? Guid.NewGuid().ToString();
         _useTls = useTls;
         _baseTopic = baseTopic ?? throw new ArgumentNullException(nameof(baseTopic));
+        _initialBackoffDelayInMilliseconds = initialBackoffDelayInMilliseconds;
+        _maxBackoffDelayInMilliseconds = maxBackoffDelayInMilliseconds;
 
         // Set the unique identifier for the data sink for observability.
         Id = _clientId + _host + port + _baseTopic;
@@ -41,7 +47,7 @@ public class MqttDataSink : IDataSink
 
     public string Id { get; init; }
 
-    public async Task PushDataAsync(JsonDocument data)
+    public async Task PushDataAsync(JsonDocument data, CancellationToken stoppingToken)
     {
         if (data is null)
         {
@@ -56,19 +62,27 @@ public class MqttDataSink : IDataSink
 
         // Publish data to the MQTT broker until successful.
         var successfulPublish = false;
+        int backoff_delay_in_milliseconds = _initialBackoffDelayInMilliseconds;
         while (!successfulPublish)
         {
             try
             {
-                await _mqttSessionClient.PublishAsync(mqtt_application_message, CancellationToken.None);
+                await _mqttSessionClient.PublishAsync(mqtt_application_message, stoppingToken);
+
+                // Reset backoff delay on successful data processing.
+                backoff_delay_in_milliseconds = _initialBackoffDelayInMilliseconds;
                 successfulPublish = true;
             }
             catch (MqttCommunicationException ex)
             {
                 _logger.LogError(ex, "Error publishing data to MQTT broker, topic: {topic}, reconnecting...", _baseTopic);
 
-                // TODO: Add exponential backoff with jitter.
-                Task.Delay(1000).Wait();
+                await Task.Delay(backoff_delay_in_milliseconds);
+                backoff_delay_in_milliseconds = (int)Math.Pow(backoff_delay_in_milliseconds, 1.02);
+
+                // Limit backoff delay to _maxBackoffDelayInMilliseconds.
+                backoff_delay_in_milliseconds = backoff_delay_in_milliseconds > _maxBackoffDelayInMilliseconds ? _maxBackoffDelayInMilliseconds : backoff_delay_in_milliseconds;
+
                 await _mqttSessionClient.ReconnectAsync();
             }
         }

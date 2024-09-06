@@ -8,5 +8,5 @@ public interface IDataSource
 
     int PollingInternalInMilliseconds { get; init; }
 
-    Task<JsonDocument> PullDataAsync();
+    Task<JsonDocument> PullDataAsync(CancellationToken stoppingToken);
 }

@@ -5,7 +5,6 @@ public sealed class Worker : BackgroundService
     private readonly ILogger<Worker> _logger;
     private readonly IDataSource[] _dataSources;
     private readonly IDataSink _dataSink;
-
     private int _initialBackoffDelayInMilliseconds;
     private int _maxBackoffDelayInMilliseconds;
 
@@ -31,10 +30,10 @@ public sealed class Worker : BackgroundService
             {
                 try
                 {
-                    var source_data = await dataSource.PullDataAsync();
+                    var source_data = await dataSource.PullDataAsync(stoppingToken);
                     _logger.LogTrace("Source Data Received: {data}", source_data.RootElement.ToString());
 
-                    await _dataSink.PushDataAsync(source_data);
+                    await _dataSink.PushDataAsync(source_data, stoppingToken);
 
                     _logger.LogTrace("Data source {id}, published data to MQTT, data content: {time}", dataSource.Id, source_data.RootElement.ToString());
                     _logger.LogTrace("Data source {id}, waiting for next polling cycle (UTC): {time}, current time {time}", dataSource.Id, DateTimeOffset.UtcNow.AddMilliseconds(dataSource.PollingInternalInMilliseconds), DateTimeOffset.UtcNow);

@@ -6,5 +6,5 @@ public interface IDataSink
 {
     string Id { get; init; }
 
-    Task PushDataAsync(JsonDocument data);
+    Task PushDataAsync(JsonDocument data, CancellationToken stoppingToken);
 }

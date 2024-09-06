@@ -25,12 +25,12 @@ public class HttpDataSource : IDataSource
 
     public int PollingInternalInMilliseconds { get; init; }
 
-    public async Task<JsonDocument> PullDataAsync()
+    public async Task<JsonDocument> PullDataAsync(CancellationToken stoppingToken)
     {
         _logger.LogTrace("Connecting to Http end point: {url}", _url.ToString());
 
         // Circuit breaker with reties and back-off is configured at the HttpClient level in DI config.
-        var response = await _http_client.GetAsync(_url);
+        var response = await _http_client.GetAsync(_url, stoppingToken);
         response.EnsureSuccessStatusCode();
 
         using var responseStream = await response.Content.ReadAsStreamAsync();
