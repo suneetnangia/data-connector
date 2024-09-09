@@ -20,13 +20,13 @@ public class MqttDataSink : IDataSink
 
     private readonly bool _useTls;
 
-    private readonly string _baseTopic;
+    private readonly string _topic;
 
     private int _initialBackoffDelayInMilliseconds;
 
     private int _maxBackoffDelayInMilliseconds;
 
-    public MqttDataSink(ILogger logger, MqttSessionClient mqttSessionClient, string host, int port, string? clientId, bool useTls, string baseTopic, int initialBackoffDelayInMilliseconds = 500, int maxBackoffDelayInMilliseconds = 10_000)
+    public MqttDataSink(ILogger logger, MqttSessionClient mqttSessionClient, string host, int port, string? clientId, bool useTls, string topic, int initialBackoffDelayInMilliseconds = 500, int maxBackoffDelayInMilliseconds = 10_000)
     {
         _logger = logger;
         _mqttSessionClient = mqttSessionClient ?? throw new ArgumentNullException(nameof(mqttSessionClient));
@@ -34,12 +34,12 @@ public class MqttDataSink : IDataSink
         _port = port;
         _clientId = clientId ?? Guid.NewGuid().ToString();
         _useTls = useTls;
-        _baseTopic = baseTopic ?? throw new ArgumentNullException(nameof(baseTopic));
+        _topic = topic ?? throw new ArgumentNullException(nameof(topic));
         _initialBackoffDelayInMilliseconds = initialBackoffDelayInMilliseconds;
         _maxBackoffDelayInMilliseconds = maxBackoffDelayInMilliseconds;
 
         // Set the unique identifier for the data sink for observability.
-        Id = _clientId + _host + port + _baseTopic;
+        Id = _clientId + _host + port + topic;
 
         // Connect to the MQTT broker.
         Connect();
@@ -54,8 +54,7 @@ public class MqttDataSink : IDataSink
             throw new ArgumentNullException(nameof(data));
         }
 
-        // TODO: create dynamic topic structure from configuration template.
-        var mqtt_application_message = new MqttApplicationMessage(_baseTopic, MqttQualityOfServiceLevel.AtLeastOnce)
+        var mqtt_application_message = new MqttApplicationMessage(_topic, MqttQualityOfServiceLevel.AtLeastOnce)
         {
             PayloadSegment = new ArraySegment<byte>(Encoding.Unicode.GetBytes(data.RootElement.GetRawText()))
         };
@@ -68,6 +67,7 @@ public class MqttDataSink : IDataSink
             try
             {
                 await _mqttSessionClient.PublishAsync(mqtt_application_message, stoppingToken);
+                _logger.LogTrace("Published data to MQTT broker, topic: {topic}.", _topic);
 
                 // Reset backoff delay on successful data processing.
                 backoff_delay_in_milliseconds = _initialBackoffDelayInMilliseconds;
@@ -75,7 +75,7 @@ public class MqttDataSink : IDataSink
             }
             catch (MqttCommunicationException ex)
             {
-                _logger.LogError(ex, "Error publishing data to MQTT broker, topic: {topic}, reconnecting...", _baseTopic);
+                _logger.LogError(ex, "Error publishing data to MQTT broker, topic: {topic}, reconnecting...", _topic);
 
                 await Task.Delay(backoff_delay_in_milliseconds);
                 backoff_delay_in_milliseconds = (int)Math.Pow(backoff_delay_in_milliseconds, 1.02);
