@@ -1,4 +1,4 @@
-name: Package Release
+name: Build Package Release
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -21,7 +21,7 @@ env:
 
 
 jobs:
-  build:
+  build-package-release:
 
     runs-on: ubuntu-latest
     permissions:
@@ -87,4 +87,6 @@ jobs:
           packages_with_index: false
           # Name of the branch to be used to push the index and artifacts. (default to: gh-pages but it is not set in the action it is a default value for the chart-releaser binary)
           pages_branch: release_management
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
             
