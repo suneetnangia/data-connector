@@ -3,6 +3,9 @@
 # Default target
 all: build container
 
+run:
+	dotnet run --project Http.Mqtt.Connector.Svc/Http.Mqtt.Connector.Svc.csproj
+	
 build:
 	dotnet build Http.Mqtt.Connector.Svc/Http.Mqtt.Connector.Svc.csproj
 
