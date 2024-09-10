@@ -21,7 +21,7 @@ env:
 
 
 jobs:
-  build:
+  build-package-release:
 
     runs-on: ubuntu-latest
     permissions:
