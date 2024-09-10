@@ -4,6 +4,7 @@ description: A Helm chart for deploying Http to MQTT connector on K8s, preview v
 keywords:
     - azure    
     - edge
+    - data
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
