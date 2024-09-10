@@ -12,7 +12,6 @@ packages/
 *.user
 *.sln.docstates
 settings.json
-launchSettings.json
 
 # Ignore ReSharper files
 _ReSharper*/
