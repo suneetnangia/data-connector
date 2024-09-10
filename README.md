@@ -1,4 +1,4 @@
-# http-mqtt-connector
+# Http Mqtt Connector
 
 A repo to periodically read data from RESTful APIs and publish it on MQTT broker.
 

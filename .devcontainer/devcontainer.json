@@ -1,0 +1,36 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+{
+	"name": "Http Mqtt Connector",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/base:jammy",
+
+    "features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "moby": false
+        },
+        "ghcr.io/devcontainers/features/dotnet:2": {
+            "version": "8.0"
+        }
+	},
+
+	// Use this environment variable if you need to bind mount your local source code into a new container.
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+	},
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "docker --version",
+
+	// Configure tool-specific properties.
+	"customizations": {
+        "vscode": {
+			"extensions": [
+				"davidanson.vscode-markdownlint",
+				"streetsidesoftware.code-spell-checker",
+				"ms-dotnettools.csdevkit",
+				"EditorConfig.EditorConfig",
+				"ms-vscode.makefile-tools"
+			]
+		}
+    }
+}
