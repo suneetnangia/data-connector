@@ -2,7 +2,7 @@ namespace Http.Mqtt.Connector.Svc;
 
 using System.Text.Json;
 
-public class HttpDataSource : IDataSourc
+public class HttpDataSource : IDataSource
 {
     private readonly ILogger _logger;
     private readonly HttpClient _http_client;
