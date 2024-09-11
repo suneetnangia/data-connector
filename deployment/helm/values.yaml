@@ -1,0 +1,3 @@
+# Http Mqtt Connector module settings
+containerImage: "ghcr.io/suneetnangia/http-mqtt-connector:main"
+appsettingsContent: ""

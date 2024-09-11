@@ -29,7 +29,8 @@
 				"streetsidesoftware.code-spell-checker",
 				"ms-dotnettools.csdevkit",
 				"EditorConfig.EditorConfig",
-				"ms-vscode.makefile-tools"
+				"ms-vscode.makefile-tools",
+				"redhat.vscode-yaml"
 			]
 		}
     }

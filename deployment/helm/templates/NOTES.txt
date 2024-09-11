@@ -4,3 +4,6 @@ To learn more about the release, try:
 
   $ helm status {{ .Release.Name }}
   $ helm get all {{ .Release.Name }}
+
+To install this chart please use the following command:
+  $ helm install {{ .Release.Name }} {{ .Chart.Name }} --namespace {{ .Release.Namespace }} --create-namespace --set-file appsettingsContent=$pwd./<your relative file path>/appsettings.json
