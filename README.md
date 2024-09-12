@@ -30,4 +30,4 @@ Please refer to the project board [here](https://github.com/users/suneetnangia/p
 
 3. Install Helm Package (appsettings.json content is stored as a K8s secret)
 
-    ```helm install http-mqtt-connector-01 aio-extensions/http-mqtt-connector --namespace aio-extensions --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
+    ```helm install http-mqtt-connector-01 aio-extensions/http-mqtt-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
