@@ -12,13 +12,20 @@ spec:
       labels:
         app: http-mqtt-connector
     spec:
+      # Use the "mqtt-client" service account which comes with default deployment
+      # Otherwise create it with `kubectl create serviceaccount mqtt-client -n azure-iot-operations`
+      serviceAccountName: mqtt-client
       containers:
         - name: http-mqtt-connector
           image: "{{ .Values.containerImage }}"
           imagePullPolicy: Always
           volumeMounts:
-            - mountPath: /app/settings
-              name: config
+            - name: config
+              mountPath: /app/settings              
+            - name: mq-sat
+              mountPath: /var/run/secrets/tokens
+            - name: trust-bundle
+              mountPath: /var/run/certs
       volumes:
         - name: config
           secret:
@@ -26,3 +33,13 @@ spec:
             items:
               - key: appsettings.json
                 path: appsettings.json
+        - name: mq-sat
+          projected:
+            sources:
+            - serviceAccountToken:
+                path: mq-sat
+                audience: aio-mq # Must match audience in BrokerAuthentication
+                expirationSeconds: 86400
+        - name: trust-bundle
+          configMap:
+            name: aio-ca-trust-bundle-test-only # Default root CA cert for AIO
