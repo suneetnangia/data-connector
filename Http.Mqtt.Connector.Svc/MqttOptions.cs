@@ -14,6 +14,14 @@ public class MqttOptions
 
     public bool UseTls { get; set; } = false;
 
+    public required string Username { get; set; }
+
+    public required string Password { get; set; }
+
+    public required string SatFilePath { get; set; }
+
+    public required string CaFilePath { get; set; }
+
     public string BaseTopic { get; set; } = "azure-iot-operations/data/";
 
     // Add more options as needed

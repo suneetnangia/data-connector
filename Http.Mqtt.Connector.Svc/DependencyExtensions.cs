@@ -76,7 +76,14 @@ public static class DependencyExtensions
                         mqtt_options.Value.Port,
                         mqtt_options.Value.ClientId,
                         mqtt_options.Value.UseTls,
+                        mqtt_options.Value.Username,
+                        mqtt_options.Value.Password,
+                        mqtt_options.Value.SatFilePath,
+                        mqtt_options.Value.CaFilePath,
                         topic);
+
+                    // Connect to the data sink.
+                    data_sink.Connect();
 
                     // Data Source and Sink mapping.
                     dataSourceSinkMap.Add(data_source, data_sink);
@@ -86,22 +93,6 @@ public static class DependencyExtensions
             }
 
             return dataSourceSinkMap;
-        });
-
-        services.AddSingleton<IDataSink>(provider =>
-        {
-            var mqtt_options = provider.GetRequiredService<IOptions<MqttOptions>>();
-
-            var mqtt_session_client = new MqttSessionClient();
-
-            return new MqttDataSink(
-                provider.GetRequiredService<ILogger<MqttDataSink>>(),
-                mqtt_session_client,
-                mqtt_options.Value.Host,
-                mqtt_options.Value.Port,
-                mqtt_options.Value.ClientId,
-                mqtt_options.Value.UseTls,
-                mqtt_options.Value.BaseTopic);
         });
 
         return services;

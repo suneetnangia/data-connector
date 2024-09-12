@@ -33,8 +33,8 @@ public sealed class Worker : BackgroundService
 
                     await dataSourceSink.Value.PushDataAsync(source_data, stoppingToken);
 
-                    _logger.LogTrace("Data source {id}, published data to MQTT, data content: {time}", dataSourceSink.Key.Id, source_data.RootElement.ToString());
-                    _logger.LogTrace("Data source {id}, waiting for next polling cycle (UTC): {time}, current time {time}", dataSourceSink.Key.Id, DateTimeOffset.UtcNow.AddMilliseconds(dataSourceSink.Key.PollingInternalInMilliseconds), DateTimeOffset.UtcNow);
+                    _logger.LogTrace("Data source '{id}', published data to MQTT, data content: {time}", dataSourceSink.Key.Id, source_data.RootElement.ToString());
+                    _logger.LogTrace("Data source '{id}', waiting for next polling cycle (UTC): {time}, current time {time}", dataSourceSink.Key.Id, DateTimeOffset.UtcNow.AddMilliseconds(dataSourceSink.Key.PollingInternalInMilliseconds), DateTimeOffset.UtcNow);
 
                     // Delay for the configured polling interval.
                     await Task.Delay(dataSourceSink.Key.PollingInternalInMilliseconds, stoppingToken);
@@ -44,7 +44,7 @@ public sealed class Worker : BackgroundService
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error occurred while processing messages; data source {id}, data sink {id}, retrying in {milliseconds} milliseconds...", dataSourceSink.Key.Id, dataSourceSink.Value.Id, backoff_delay_in_milliseconds);
+                    _logger.LogError(ex, "Error occurred while processing messages; data source '{id}', data sink '{id}', retrying in {milliseconds} milliseconds...", dataSourceSink.Key.Id, dataSourceSink.Value.Id, backoff_delay_in_milliseconds);
                     await Task.Delay(backoff_delay_in_milliseconds, stoppingToken);
                     backoff_delay_in_milliseconds = (int)Math.Pow(backoff_delay_in_milliseconds, 1.02);
 
