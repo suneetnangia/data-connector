@@ -16,8 +16,7 @@ The appsettings.json example below is configured to poll the following endpoints
   "Http": {
     "Endpoints": [
       {
-        "Url": "http://localhost",
-        "Port": 5126,
+        "Url": "http://localhost:5126",
         "TimeOutInSeconds": 5,
         "RelativeEndpoints": [
           {
