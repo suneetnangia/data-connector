@@ -114,8 +114,8 @@ public class MqttDataSink : IDataSink
     {
         if (!_mqttSessionClient.IsConnected)
         {
-            _logger.LogTrace("MQTT SAT token file location: '{file}'.", _satFilePath);
-            _logger.LogTrace("CA cert file location: '{file}'.", _caFilePath);
+            _logger.LogInformation("MQTT SAT token file location: '{file}'.", _satFilePath);
+            _logger.LogInformation("CA cert file location: '{file}'.", _caFilePath);
 
             MqttConnectionSettings connectionSettings = new(_host)
             {
@@ -123,7 +123,8 @@ public class MqttDataSink : IDataSink
                 ClientId = _clientId,
                 UseTls = _useTls,
                 Username = _username,
-                Password = !string.IsNullOrEmpty(_satFilePath) ? File.ReadAllText(_satFilePath) : _password,
+                Password = _password,
+                SatAuthFile = _satFilePath,
                 CaFile = _caFilePath
             };
 
