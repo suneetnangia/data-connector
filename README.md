@@ -22,12 +22,18 @@ Please refer to the project board [here](https://github.com/users/suneetnangia/p
 
 ## Deploy in K8s
 
-1. Add Helm Repo
+1. Add Helm Repo:
 
     ```helm repo add aio-extensions https://raw.githubusercontent.com/suneetnangia/http-mqtt-connector/release_management```
 
-2. Copy configuration file from [here](Http.Mqtt.Connector.Svc/appsettings.json) and update with your specifics.
+2. Copy configuration file from the example [here](docs/AppSettings.md#Example%20appsettings.json).
 
-3. Install Helm Package (appsettings.json content is stored as a K8s secret)
+3. Update configuration file with your specifics, refer to the guide [here](docs/AppSettings.md#Configuration%20Guide).
+
+4. Install Helm package (appsettings.json content is stored as a K8s secret):
 
     ```helm install http-mqtt-connector-01 aio-extensions/http-mqtt-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
+
+5. Uninstall Helm package (after evaluation):
+
+    ```helm uninstall http-mqtt-connector-01 -n azure-iot-operations```
