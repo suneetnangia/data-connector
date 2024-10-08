@@ -32,13 +32,13 @@ The appsettings.json example below is configured to poll the following endpoints
     ]
   },
   "Mqtt": {
-    "Host": "aio-mq-dmqtt-frontend",
-    "Port": 8883,
+    "Host": "aio-broker",
+    "Port": 18883,
     "ClientId": "Http.Mqtt.Connector.Svc",
     "UseTls": true,
     "Username": "",
     "Password": "",
-    "SatFilePath": "/var/run/secrets/tokens/mq-sat",
+    "SatFilePath": "/var/run/secrets/tokens/broker-sat",
     "CaFilePath": "/var/run/certs/ca.crt",
     "BaseTopic": "azure-iot-operations/data/"
   },

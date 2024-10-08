@@ -22,7 +22,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /app/settings              
-            - name: mq-sat
+            - name: broker-sat
               mountPath: /var/run/secrets/tokens
             - name: trust-bundle
               mountPath: /var/run/certs
@@ -33,13 +33,13 @@ spec:
             items:
               - key: appsettings.json
                 path: appsettings.json
-        - name: mq-sat
+        - name: broker-sat
           projected:
             sources:
             - serviceAccountToken:
-                path: mq-sat
-                audience: aio-mq # Must match audience in BrokerAuthentication
+                path: broker-sat
+                audience: aio-internal # Must match audience in BrokerAuthentication
                 expirationSeconds: 86400
         - name: trust-bundle
           configMap:
-            name: aio-ca-trust-bundle-test-only # Default root CA cert for AIO
+            name: azure-iot-operations-aio-ca-trust-bundle # Default root CA cert
