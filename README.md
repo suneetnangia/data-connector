@@ -4,7 +4,7 @@ A repo to periodically read data from RESTful APIs and publish it on MQTT broker
 
 ## Overview
 
-[Add diagram here]
+![Design](docs/Design.png)
 
 ## Features
 
