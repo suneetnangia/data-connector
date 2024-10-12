@@ -26,13 +26,20 @@ Please refer to the project board [here](https://github.com/users/suneetnangia/p
 
     ```helm repo add aio-extensions https://raw.githubusercontent.com/suneetnangia/http-mqtt-connector/release_management```
 
-2. Copy configuration file from the example [here](docs/AppSettings.md#Example%20appsettings.json).
+2. Copy configuration file from the example:
+   1. For AIO [here](docs/AppSettings.md#%22Example%20appsettings.json%20for%20AIO%20MQTT%20broker%22).
+   2. For Non-AIO [here](docs/AppSettings.md#%22Example%20appsettings.json%20for%20non%20AIO%20MQTT%20broker%22).
 
 3. Update configuration file with your specifics, refer to the guide [here](docs/AppSettings.md#Configuration%20Guide).
 
 4. Install Helm package (appsettings.json content is stored as a K8s secret):
+   1. For AIO:
 
-    ```helm install http-mqtt-connector-01 aio-extensions/http-mqtt-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
+        ```helm install http-mqtt-connector-01 aio-extensions/aio-http-mqtt-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
+
+   2. For non-AIO
+
+        ```helm install http-mqtt-connector-01 aio-extensions/http-mqtt-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
 
 5. Uninstall Helm package (after evaluation):
 
