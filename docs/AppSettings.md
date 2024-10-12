@@ -9,23 +9,37 @@ The appsettings.json example below is configured to poll the following endpoints
 
 [Explain additional appsettings.json configuration here.]
 
-## Example appsettings.json
+## Example appsettings.json for AIO MQTT broker
 
 ```json
 {
-  "Http": {
+ "Http": {
     "Endpoints": [
       {
-        "Url": "http://localhost:5126",
+        "Url": "https://dog.ceo",
         "TimeOutInSeconds": 5,
         "RelativeEndpoints": [
           {
-            "Url": "/weatherforecast/africa",
+            "Url": "/api/breed/hound/list",
             "PollingInternalInMilliseconds": 2000
           },
           {
-            "Url": "/weatherforecast/sweden",
-            "PollingInternalInMilliseconds": 10000
+            "Url": "/api/breed/greyhound/list",
+            "PollingInternalInMilliseconds": 2000
+          }
+        ]
+      },
+      {
+        "Url": "https://dog.ceo",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/api/breed/bulldog/list",
+            "PollingInternalInMilliseconds": 2000
+          },
+          {
+            "Url": "/api/breed/retriever/list",
+            "PollingInternalInMilliseconds": 2000
           }
         ]
       }
@@ -36,10 +50,114 @@ The appsettings.json example below is configured to poll the following endpoints
     "Port": 18883,
     "ClientId": "Http.Mqtt.Connector.Svc",
     "UseTls": true,
-    "Username": "",
-    "Password": "",
     "SatFilePath": "/var/run/secrets/tokens/broker-sat",
     "CaFilePath": "/var/run/certs/ca.crt",
+    "BaseTopic": "azure-iot-operations/data/"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Trace",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  }
+}
+```
+
+## Example appsettings.json for non AIO MQTT broker
+
+```json
+{
+  "Http": {
+    "Endpoints": [
+      {
+        "Url": "http://10.128.46.1:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      },
+      {
+        "Url": "http://10.128.46.2:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      },
+      {
+        "Url": "http://10.128.46.3:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      },
+      {
+        "Url": "http://10.128.46.4:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      },
+      {
+        "Url": "http://10.128.46.5:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      },
+      {
+        "Url": "http://10.128.46.6:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      },
+      {
+        "Url": "http://10.128.46.7:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      },
+      {
+        "Url": "http://10.128.46.8:80",
+        "TimeOutInSeconds": 5,
+        "RelativeEndpoints": [
+          {
+            "Url": "/NeoRestApi/v1/neo",
+            "PollingInternalInMilliseconds": 10000
+          }
+        ]
+      }
+    ]
+  },
+  "Mqtt": {
+    "Host": "broker.emqx.io",
+    "Port": 1883,
+    "ClientId": "Http.Mqtt.Connector.Svc",
+    "UseTls": false,
+    "Username": "",
+    "Password": "",
     "BaseTopic": "azure-iot-operations/data/"
   },
   "Logging": {

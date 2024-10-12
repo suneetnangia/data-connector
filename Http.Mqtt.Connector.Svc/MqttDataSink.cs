@@ -71,10 +71,7 @@ public class MqttDataSink : IDataSink
 
     public async Task PushDataAsync(JsonDocument data, CancellationToken stoppingToken)
     {
-        if (data is null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         var mqtt_application_message = new MqttApplicationMessage(_topic, MqttQualityOfServiceLevel.AtLeastOnce)
         {

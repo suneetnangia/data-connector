@@ -45,6 +45,7 @@ public static class DependencyExtensions
             // Create a data source and sink for each endpoint.
             var dataSourceSinkMap = new Dictionary<IDataSource, IDataSink>();
 
+            var mqtt_session_client = new MqttSessionClient();
             int endpointCount = 0;
             foreach (var endpoint in http_options.Value.Endpoints)
             {
@@ -56,17 +57,16 @@ public static class DependencyExtensions
                 http_client.BaseAddress = new Uri(endpoint.Url);
 
                 var mqtt_options = provider.GetRequiredService<IOptions<MqttOptions>>();
-                var mqtt_session_client = new MqttSessionClient();
 
                 foreach (var relativeEndpoint in endpoint.RelativeEndpoints)
                 {
                     var data_source = new HttpDataSource(
                         provider.GetRequiredService<ILogger<HttpDataSource>>(),
                         http_client,
-                        new Uri(endpoint.Url),
                         new Uri(relativeEndpoint.Url, UriKind.Relative),
                         relativeEndpoint.PollingInternalInMilliseconds);
 
+                    // Topic name is created here.
                     var topic = mqtt_options.Value.BaseTopic + new Uri(endpoint.Url).Host + relativeEndpoint.Url;
 
                     var data_sink = new MqttDataSink(
