@@ -81,13 +81,32 @@ jobs:
           cache-to: type=gha,mode=max
 
       # Release Helm Package
-      - name: Helm Chart Releaser
+      - name: AIO Helm Chart Releaser
       # You may pin to the exact commit or the version.
       # uses: helm/chart-releaser-action@a917fd15b20e8b64b94d9158ad54cd6345335584
         uses: helm/chart-releaser-action@v1.6.0
         with:        
           # The charts directory
-          charts_dir: deployment/helm
+          charts_dir: deployment/helm/aio
+          # Mark the created GitHub release as 'latest'
+          mark_as_latest: true
+          # Skip package upload if release/tag already exists
+          skip_existing: false
+          # Upload chart packages directly into publishing branch
+          packages_with_index: true
+          # Name of the branch to be used to push the index and artifacts. (default to: gh-pages but it is not set in the action it is a default value for the chart-releaser binary)
+          pages_branch: release_management
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      # Release Helm Package
+      - name: Non-AIO Helm Chart Releaser
+      # You may pin to the exact commit or the version.
+      # uses: helm/chart-releaser-action@a917fd15b20e8b64b94d9158ad54cd6345335584
+        uses: helm/chart-releaser-action@v1.6.0
+        with:        
+          # The charts directory
+          charts_dir: deployment/helm/non-aio
           # Mark the created GitHub release as 'latest'
           mark_as_latest: true
           # Skip package upload if release/tag already exists
