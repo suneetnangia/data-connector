@@ -1,5 +1,5 @@
 apiVersion: v2
-name: http-mqtt-connector
+name: aio-http-mqtt-connector
 description: A Helm chart for deploying AIO compatible Http to MQTT connector on K8s, preview version.
 keywords:
     - azure    
@@ -17,7 +17,7 @@ type: application
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 0.2.0
+version: 0.2.1
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
