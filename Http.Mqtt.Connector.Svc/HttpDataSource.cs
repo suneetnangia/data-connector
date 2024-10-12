@@ -6,19 +6,17 @@ public class HttpDataSource : IDataSource
 {
     private readonly ILogger _logger;
     private readonly HttpClient _http_client;
-    private readonly Uri _url;
+    private readonly Uri _relative_url;
 
-    public HttpDataSource(ILogger logger, HttpClient httpClient, Uri baseUrl, Uri relativeUrl, int pollingInternalInMilliseconds)
+    public HttpDataSource(ILogger logger, HttpClient httpClient, Uri relativeUrl, int pollingInternalInMilliseconds)
     {
-        _logger = logger;
-        _http_client = httpClient;
-
-        _url = new Uri(baseUrl, relativeUrl);
-
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _http_client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        _relative_url = relativeUrl ?? throw new ArgumentNullException(nameof(relativeUrl));
         PollingInternalInMilliseconds = pollingInternalInMilliseconds;
 
         // Set the unique identifier for the data source for observability.
-        Id = _url.ToString();
+        Id = new Uri(_http_client.BaseAddress ?? throw new InvalidOperationException("BaseAddress cannot be null"), relativeUrl).ToString();
     }
 
     public string Id { get; init; }
@@ -27,10 +25,10 @@ public class HttpDataSource : IDataSource
 
     public async Task<JsonDocument> PullDataAsync(CancellationToken stoppingToken)
     {
-        _logger.LogTrace("Connecting to Http end point: {url}", _url.ToString());
+        _logger.LogTrace("Connecting to Http endpoint, Id: {Id}", Id);
 
         // Circuit breaker with reties and back-off is configured at the HttpClient level in DI config.
-        var response = await _http_client.GetAsync(_url, stoppingToken);
+        var response = await _http_client.GetAsync(_relative_url, stoppingToken);
         response.EnsureSuccessStatusCode();
 
         using var responseStream = await response.Content.ReadAsStreamAsync();
