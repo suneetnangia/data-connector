@@ -10,15 +10,7 @@ A repo to periodically read data from RESTful APIs and publish it on MQTT broker
 
 1. Poll RESTful endpoints using ```GET``` verb.
 2. Configurable polling interval for RESTful endpoints.
-3. MQTT connectivity using anonymous, username/password or SAT token in Azure IoT Operations. [WIP]
-
-## Backlog
-
-Please refer to the project board [here](https://github.com/users/suneetnangia/projects/3).
-
-## Development Loop
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/suneetnangia/http-mqtt-connector/)
+3. MQTT connectivity using anonymous, username/password or SAT token in Azure IoT Operations.
 
 ## Deploy in K8s
 
@@ -27,8 +19,8 @@ Please refer to the project board [here](https://github.com/users/suneetnangia/p
     ```helm repo add aio-extensions https://raw.githubusercontent.com/suneetnangia/http-mqtt-connector/release_management```
 
 2. Copy configuration file from the example:
-   1. For AIO [here](docs/AppSettings.md#%22Example%20appsettings.json%20for%20AIO%20MQTT%20broker%22).
-   2. For Non-AIO [here](docs/AppSettings.md#%22Example%20appsettings.json%20for%20non%20AIO%20MQTT%20broker%22).
+   1. For AIO [here](docs/AppSettings.md#Example-appsettings.json-for-AIO-MQTT-broker).
+   2. For Non-AIO [here](docs/AppSettings.md#Example-appsettings.json-for-non-AIO-MQTT-broker).
 
 3. Update configuration file with your specifics, refer to the guide [here](docs/AppSettings.md#Configuration%20Guide).
 
@@ -44,3 +36,11 @@ Please refer to the project board [here](https://github.com/users/suneetnangia/p
 5. Uninstall Helm package (after evaluation):
 
     ```helm uninstall http-mqtt-connector-01 -n azure-iot-operations```
+
+## Backlog
+
+Please refer to the project board [here](https://github.com/users/suneetnangia/projects/3).
+
+## Development Loop
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/suneetnangia/http-mqtt-connector/)
