@@ -67,85 +67,33 @@ The appsettings.json example below is configured to poll the following endpoints
 
 ```json
 {
-  "Http": {
+ "Http": {
     "Endpoints": [
       {
-        "Url": "http://10.128.46.1:80",
+        "Url": "https://dog.ceo",
         "TimeOutInSeconds": 5,
         "RelativeEndpoints": [
           {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
+            "Url": "/api/breed/hound/list",
+            "PollingInternalInMilliseconds": 2000
+          },
+          {
+            "Url": "/api/breed/greyhound/list",
+            "PollingInternalInMilliseconds": 2000
           }
         ]
       },
       {
-        "Url": "http://10.128.46.2:80",
+        "Url": "https://dog.ceo",
         "TimeOutInSeconds": 5,
         "RelativeEndpoints": [
           {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
-          }
-        ]
-      },
-      {
-        "Url": "http://10.128.46.3:80",
-        "TimeOutInSeconds": 5,
-        "RelativeEndpoints": [
+            "Url": "/api/breed/bulldog/list",
+            "PollingInternalInMilliseconds": 2000
+          },
           {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
-          }
-        ]
-      },
-      {
-        "Url": "http://10.128.46.4:80",
-        "TimeOutInSeconds": 5,
-        "RelativeEndpoints": [
-          {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
-          }
-        ]
-      },
-      {
-        "Url": "http://10.128.46.5:80",
-        "TimeOutInSeconds": 5,
-        "RelativeEndpoints": [
-          {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
-          }
-        ]
-      },
-      {
-        "Url": "http://10.128.46.6:80",
-        "TimeOutInSeconds": 5,
-        "RelativeEndpoints": [
-          {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
-          }
-        ]
-      },
-      {
-        "Url": "http://10.128.46.7:80",
-        "TimeOutInSeconds": 5,
-        "RelativeEndpoints": [
-          {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
-          }
-        ]
-      },
-      {
-        "Url": "http://10.128.46.8:80",
-        "TimeOutInSeconds": 5,
-        "RelativeEndpoints": [
-          {
-            "Url": "/NeoRestApi/v1/neo",
-            "PollingInternalInMilliseconds": 10000
+            "Url": "/api/breed/retriever/list",
+            "PollingInternalInMilliseconds": 2000
           }
         ]
       }
