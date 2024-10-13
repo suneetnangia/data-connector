@@ -2,6 +2,21 @@ apiVersion: v1
 entries:
   aio-http-mqtt-connector:
   - apiVersion: v2
+    appVersion: 0.3.4
+    created: "2024-10-13T06:41:33.882194647Z"
+    description: A Helm chart for deploying AIO compatible Http to MQTT connector
+      on K8s, preview version.
+    digest: d1387db60ccba9ef63e22c23058bb294b013375386f4ff4583830b6c1c5e9710
+    keywords:
+    - azure
+    - edge
+    - data
+    name: aio-http-mqtt-connector
+    type: application
+    urls:
+    - aio-http-mqtt-connector-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
     appVersion: 0.3.3
     created: "2024-10-12T19:28:36.421664203Z"
     description: A Helm chart for deploying AIO compatible Http to MQTT connector
@@ -62,4 +77,4 @@ entries:
     urls:
     - http-mqtt-connector-0.0.1.tgz
     version: 0.0.1
-generated: "2024-10-12T19:28:39.086148365Z"
+generated: "2024-10-13T06:41:33.882229411Z"
