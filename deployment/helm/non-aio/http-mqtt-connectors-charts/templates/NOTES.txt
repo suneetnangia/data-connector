@@ -7,6 +7,3 @@ To learn more about the release, try:
 
 To uninstall this chart please use the following command:
   $ helm uninstall {{ .Release.Name }} --namespace {{ .Release.Namespace }}
-
-To install this chart with a specific appsettings.json file, use the following command:
-  $ helm install {{ .Release.Name }} {{ .Chart.Name }} --namespace {{ .Release.Namespace }} --create-namespace --set-file appsettingsContent=$pwd./<your relative file path>/appsettings.json
