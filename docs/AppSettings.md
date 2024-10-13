@@ -2,12 +2,7 @@
 
 ## Configuration Guide
 
-The appsettings.json example below is configured to poll the following endpoints and send the respective responses to AIO's MQTT broker (MQ) using a pre-configured SAT token (no additional credentials needed).
-
-1. <http://localhost:5126/weatherforecast/africa> with ```5``` seconds of timeout and 2000 milliseconds of polling interval.
-2. <http://localhost:5126/weatherforecast/sweden> with ```5``` seconds of timeout and 10000 milliseconds of polling interval.
-
-[Explain additional appsettings.json configuration here.]
+The appsettings.json example below is configured to poll the following endpoints and send the respective responses to the configured MQTT broker.
 
 ## Example appsettings.json for AIO MQTT broker
 
