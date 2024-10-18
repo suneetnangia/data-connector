@@ -4,6 +4,17 @@
 
 The appsettings.json example below is configured to poll the following endpoints and send the respective responses to the configured MQTT broker.
 
+## Supported Macros
+
+Relative Urls support the following macros:
+
+1. ```{yyyy-mm-dd}``` will replace it with the current date, example
+
+   ```/api/breed/hound/list/{yyyy-mm-dd}``` -> ```/api/breed/hound/list/2024-10-09```
+2. ```{yyyy-mm}``` will replace it with the current date, example
+
+   ```/api/breed/hound/{yyyy-mm}/list``` -> ```/api/breed/hound/2024-10/list```
+
 ## Example appsettings.json for AIO MQTT broker
 
 ```json
