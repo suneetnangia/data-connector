@@ -28,7 +28,7 @@ public class HttpDataSource : IDataSource
         _logger.LogTrace("Connecting to Http endpoint, Id: {Id}", Id);
 
         // Circuit breaker with reties and back-off is configured at the HttpClient level in DI config.
-        var response = await _http_client.GetAsync(_relative_url, stoppingToken);
+        var response = await _http_client.GetAsync(_relative_url.Normalize(), stoppingToken);
         response.EnsureSuccessStatusCode();
 
         using var responseStream = await response.Content.ReadAsStreamAsync();
