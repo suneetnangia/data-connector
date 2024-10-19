@@ -93,6 +93,21 @@ entries:
     version: 0.0.1
   http-mqtt-connector:
   - apiVersion: v2
+    appVersion: 0.3.7
+    created: "2024-10-19T13:04:43.856741755Z"
+    description: A Helm chart for deploying Http to MQTT connector on K8s, preview
+      version.
+    digest: 29e33df232d82b93d7dfcb8d2bbaffc84b91b22ea5fdf8ba47365d41bbb7ab6a
+    keywords:
+    - azure
+    - edge
+    - data
+    name: http-mqtt-connector
+    type: application
+    urls:
+    - http-mqtt-connector-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
     appVersion: 0.3.6
     created: "2024-10-18T14:25:08.192353553Z"
     description: A Helm chart for deploying Http to MQTT connector on K8s, preview
@@ -167,4 +182,4 @@ entries:
     urls:
     - http-mqtt-connector-0.0.1.tgz
     version: 0.0.1
-generated: "2024-10-19T13:04:41.614118289Z"
+generated: "2024-10-19T13:04:43.856777462Z"
