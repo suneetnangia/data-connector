@@ -60,16 +60,14 @@ public static class DependencyExtensions
 
                 foreach (var relativeEndpoint in endpoint.RelativeEndpoints)
                 {
-                    Uri normalizedRelativeUri = new Uri(relativeEndpoint.Url, UriKind.Relative).Normalize();
-
                     var data_source = new HttpDataSource(
                         provider.GetRequiredService<ILogger<HttpDataSource>>(),
                         http_client,
-                        normalizedRelativeUri,
+                        new Uri(relativeEndpoint.Url, UriKind.Relative),
                         relativeEndpoint.PollingInternalInMilliseconds);
 
                     // Topic name is created here.
-                    var topic = mqtt_options.Value.BaseTopic + new Uri(endpoint.Url).Host + normalizedRelativeUri.ToString();
+                    var topic = mqtt_options.Value.BaseTopic + new Uri(endpoint.Url).Host + relativeEndpoint.Url;
 
                     var data_sink = new MqttDataSink(
                         provider.GetRequiredService<ILogger<MqttDataSink>>(),
