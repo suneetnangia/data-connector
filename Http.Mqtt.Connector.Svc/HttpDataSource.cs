@@ -17,6 +17,7 @@ public class HttpDataSource : IDataSource
 
         // Set the unique identifier for the data source for observability.
         Id = new Uri(_http_client.BaseAddress ?? throw new InvalidOperationException("BaseAddress cannot be null"), relativeUrl).ToString();
+        _logger.LogTrace("Configured http endpoint, Id: {Id}", Id);
     }
 
     public string Id { get; init; }
