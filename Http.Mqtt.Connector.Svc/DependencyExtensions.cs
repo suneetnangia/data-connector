@@ -1,6 +1,8 @@
 namespace Http.Mqtt.Connector.Svc;
 
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using Akri.Mqtt.MqttNetAdapter.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -67,15 +69,7 @@ public static class DependencyExtensions
                         relativeEndpoint.PollingInternalInMilliseconds);
 
                     // Topic name is created here.
-                    /*
-                    TODO: this is temp fix to remove dots(.) from the topic name as AIO UI considers it invalid, a bug.
-                    For now, we are just going to replace dots with underscores,
-                    but it may clash with topic names which have underscores naturally.
-                    Later, we will create a function to sanitize the topic name in general to avoid such clashes
-                    and make use of MQTT/CloudEvent properties to propagate unique identifiers for source name.
-                    */
-                    var topic = mqtt_options.Value.BaseTopic + (new Uri(endpoint.Url).Host + relativeEndpoint.Url)
-                        .Replace(".", "_", StringComparison.InvariantCultureIgnoreCase);
+                    var topic = SanitizeTopicName(endpoint.Url, relativeEndpoint.Url, mqtt_options.Value.BaseTopic);
 
                     var data_sink = new MqttDataSink(
                         provider.GetRequiredService<ILogger<MqttDataSink>>(),
@@ -104,5 +98,27 @@ public static class DependencyExtensions
         });
 
         return services;
+    }
+
+    private static string SanitizeTopicName(string baseUrl, string relativeUrl, string baseTopic)
+    {
+        var originalUrl = new Uri(new Uri(baseUrl), relativeUrl).ToString();
+        var hash = ComputeSha256Hash(originalUrl);
+        var sanitizedUrl = originalUrl.Replace(".", "_", StringComparison.InvariantCultureIgnoreCase);
+        return $"{baseTopic}{hash}/{sanitizedUrl}";
+    }
+
+    private static string ComputeSha256Hash(string rawData)
+    {
+        using (SHA256 sha256Hash = SHA256.Create())
+        {
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
+            }
+            return builder.ToString();
+        }
     }
 }
