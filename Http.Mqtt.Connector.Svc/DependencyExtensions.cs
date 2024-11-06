@@ -67,7 +67,15 @@ public static class DependencyExtensions
                         relativeEndpoint.PollingInternalInMilliseconds);
 
                     // Topic name is created here.
-                    var topic = mqtt_options.Value.BaseTopic + new Uri(endpoint.Url).Host + relativeEndpoint.Url;
+                    /*
+                    TODO: this is temp fix to remove dots(.) from the topic name as AIO UI considers it invalid, a bug.
+                    For now, we are just going to replace dots with underscores,
+                    but it may clash with topic names which have underscores naturally.
+                    Later, we will create a function to sanitize the topic name in general to avoid such clashes
+                    and make use of MQTT/CloudEvent properties to propagate unique identifiers for source name.
+                    */
+                    var topic = mqtt_options.Value.BaseTopic + (new Uri(endpoint.Url).Host + relativeEndpoint.Url)
+                        .Replace(".", "_", StringComparison.InvariantCultureIgnoreCase);
 
                     var data_sink = new MqttDataSink(
                         provider.GetRequiredService<ILogger<MqttDataSink>>(),
