@@ -75,7 +75,11 @@ public class MqttDataSink : IDataSink
 
         var mqtt_application_message = new MqttApplicationMessage(_topic, MqttQualityOfServiceLevel.AtLeastOnce)
         {
-            PayloadSegment = new ArraySegment<byte>(Encoding.UTF8.GetBytes(data.RootElement.GetRawText()))
+            PayloadSegment = new ArraySegment<byte>(Encoding.UTF8.GetBytes(data.RootElement.GetRawText())),
+            UserProperties = new List<MqttUserProperty>
+            {
+                new MqttUserProperty("OriginalUrl", _originalUrl)
+            }
         };
 
         // Publish data to the MQTT broker until successful.
