@@ -1,8 +1,6 @@
 namespace Http.Mqtt.Connector.Svc;
 
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
 using Akri.Mqtt.MqttNetAdapter.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -68,9 +66,6 @@ public static class DependencyExtensions
                         new Uri(relativeEndpoint.Url, UriKind.Relative),
                         relativeEndpoint.PollingInternalInMilliseconds);
 
-                    // Topic name is created here.
-                    var topic = SanitizeTopicName(endpoint.Url, relativeEndpoint.Url, mqtt_options.Value.BaseTopic);
-
                     var data_sink = new MqttDataSink(
                         provider.GetRequiredService<ILogger<MqttDataSink>>(),
                         mqtt_session_client,
@@ -82,7 +77,9 @@ public static class DependencyExtensions
                         mqtt_options.Value.Password,
                         mqtt_options.Value.SatFilePath,
                         mqtt_options.Value.CaFilePath,
-                        topic);
+                        mqtt_options.Value.BaseTopic,
+                        data_source.Id,
+                        topicStringReplacements: mqtt_options.Value.TopicStringReplacements);
 
                     // Connect to the data sink.
                     data_sink.Connect();
@@ -98,27 +95,5 @@ public static class DependencyExtensions
         });
 
         return services;
-    }
-
-    private static string SanitizeTopicName(string baseUrl, string relativeUrl, string baseTopic)
-    {
-        var originalUrl = new Uri(new Uri(baseUrl), relativeUrl).ToString();
-        var hash = ComputeSha256Hash(originalUrl);
-        var sanitizedUrl = originalUrl.Replace(".", "_", StringComparison.InvariantCultureIgnoreCase);
-        return $"{baseTopic}{hash}/{sanitizedUrl}";
-    }
-
-    private static string ComputeSha256Hash(string rawData)
-    {
-        using (SHA256 sha256Hash = SHA256.Create())
-        {
-            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                builder.Append(bytes[i].ToString("x2"));
-            }
-            return builder.ToString();
-        }
     }
 }
