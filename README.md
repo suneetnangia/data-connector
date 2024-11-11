@@ -6,7 +6,7 @@ A repo to periodically read data from RESTful APIs and publish it on MQTT broker
 
 ![Design](docs/Design.png)
 
-> **Note:** A temporary fix has been made to this repo to remove dots (.) from `<urldomain>` and `<relativeurl>` in the topic creation macro, due to a bug in AIO. Dots (.) are replaced with underscores (_).
+> **Note:** To understand MQTT topic generation and its customization options please refer to the document [here](docs/AppSettings.md#Supported-Customizations).
 
 ## Features
 

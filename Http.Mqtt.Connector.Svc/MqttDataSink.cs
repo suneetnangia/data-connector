@@ -1,5 +1,6 @@
 namespace Http.Mqtt.Connector.Svc;
 
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Akri.Mqtt.Connection;
@@ -30,9 +31,13 @@ public class MqttDataSink : IDataSink
 
     private readonly string _topic;
 
+    private readonly string _sourceId;
+
     private int _initialBackoffDelayInMilliseconds;
 
     private int _maxBackoffDelayInMilliseconds;
+
+    private StringReplacement[] _topicStringReplacements;
 
     public MqttDataSink(
         ILogger logger,
@@ -45,7 +50,9 @@ public class MqttDataSink : IDataSink
         string password,
         string satFilePath,
         string caFilePath,
-        string topic,
+        string baseTopic,
+        string sourceId,
+        StringReplacement[] topicStringReplacements,
         int initialBackoffDelayInMilliseconds = 500,
         int maxBackoffDelayInMilliseconds = 10_000)
     {
@@ -59,12 +66,17 @@ public class MqttDataSink : IDataSink
         _password = password;
         _satFilePath = satFilePath;
         _caFilePath = caFilePath;
-        _topic = topic ?? throw new ArgumentNullException(nameof(topic));
+        _sourceId = sourceId ?? throw new ArgumentNullException(nameof(sourceId));
         _initialBackoffDelayInMilliseconds = initialBackoffDelayInMilliseconds;
         _maxBackoffDelayInMilliseconds = maxBackoffDelayInMilliseconds;
+        _topicStringReplacements = topicStringReplacements;
+
+        // Generate the topic name for MQTT sink
+        ArgumentNullException.ThrowIfNull(baseTopic);
+        _topic = GenerateTopicName(baseTopic);
 
         // Set the unique identifier for the data sink for observability.
-        Id = $"{_clientId}-{_host}-{port}-{topic}";
+        Id = $"{_clientId}-{_host}-{port}-{_topic}";
     }
 
     public string Id { get; init; }
@@ -75,7 +87,12 @@ public class MqttDataSink : IDataSink
 
         var mqtt_application_message = new MqttApplicationMessage(_topic, MqttQualityOfServiceLevel.AtLeastOnce)
         {
-            PayloadSegment = new ArraySegment<byte>(Encoding.UTF8.GetBytes(data.RootElement.GetRawText()))
+            PayloadSegment = new ArraySegment<byte>(Encoding.UTF8.GetBytes(data.RootElement.GetRawText())),
+            UserProperties = new List<MqttUserProperty>
+            {
+                // TODO: property name should be qualified better i.e. "connector can be any connector type"
+                new MqttUserProperty("connector-source-id", _sourceId)
+            }
         };
 
         // Publish data to the MQTT broker until successful.
@@ -135,5 +152,31 @@ public class MqttDataSink : IDataSink
                 throw new ApplicationException($"Failed to connect to the MQTT broker, code {result_code}");
             }
         }
+    }
+
+    private string GenerateTopicName(string baseTopic)
+    {
+        string topic = _sourceId;
+
+        // Hash the source id to create a unique topic name.
+        using SHA256 sha256Hash = SHA256.Create();
+        var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(_sourceId));
+        var hash = new StringBuilder();
+
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            hash.Append(bytes[i].ToString("x2"));
+        }
+
+        // Replace invalid strings in the topic name if configured.
+        if (_topicStringReplacements is not null)
+        {
+            foreach (var replacement in _topicStringReplacements)
+            {
+                topic = topic.Replace(replacement.OldValue, replacement.NewValue, StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
+
+        return $"{baseTopic}{hash.ToString()}/{topic}";
     }
 }

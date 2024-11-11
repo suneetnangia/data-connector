@@ -24,5 +24,7 @@ public class MqttOptions
 
     public string BaseTopic { get; set; } = "azure-iot-operations/data/";
 
+    public required StringReplacement[] TopicStringReplacements { get; set; }
+
     // Add more options as needed
 }
