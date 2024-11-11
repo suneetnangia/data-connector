@@ -69,7 +69,7 @@ public class MqttDataSink : IDataSink
         _sourceId = sourceId ?? throw new ArgumentNullException(nameof(sourceId));
         _initialBackoffDelayInMilliseconds = initialBackoffDelayInMilliseconds;
         _maxBackoffDelayInMilliseconds = maxBackoffDelayInMilliseconds;
-        _topicStringReplacements = topicStringReplacements ?? throw new ArgumentNullException(nameof(topicStringReplacements));
+        _topicStringReplacements = topicStringReplacements;
 
         // Generate the topic name for MQTT sink
         ArgumentNullException.ThrowIfNull(baseTopic);
@@ -168,10 +168,13 @@ public class MqttDataSink : IDataSink
             hash.Append(bytes[i].ToString("x2"));
         }
 
-        // Replace invalid characters in the topic name.
-        foreach (var replacement in _topicStringReplacements)
+        // Replace invalid strings in the topic name if configured.
+        if (_topicStringReplacements is not null)
         {
-            topic = topic.Replace(replacement.OldValue, replacement.NewValue, StringComparison.InvariantCultureIgnoreCase);
+            foreach (var replacement in _topicStringReplacements)
+            {
+                topic = topic.Replace(replacement.OldValue, replacement.NewValue, StringComparison.InvariantCultureIgnoreCase);
+            }
         }
 
         return $"{baseTopic}{hash.ToString()}/{topic}";
