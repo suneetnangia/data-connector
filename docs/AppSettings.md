@@ -29,8 +29,8 @@ Steps used to generate the MQTT topic are:
 
 1. Acquire unique source Id of the source where data is read, http in this instance will have a source Id as a fully qualified url i.e. "Endpoint Url + Relative Endpoint Url" (`https://dog.ceo/api/breed/hound/list`).
 2. Calculate SHA256 hash of source Id and then convert it to hexadecimal string to avoid special chars i.e. `8bed43594758bdc7252817cb47391a06bc4a065ab78b1e63bfe6349439430165`. Adding SHA256 of unique source Id makes each MQTT topic unique which may not be the case otherwise.
-3. Replace characters and strings from config section `TopicStringReplacements` in source Id i.e. `https-//dog_ceo/api/breed/hound/list`.
-4. Concatenate strings using the formula `<Base Topic> + <SHA256 Hash from Step 2> + <Source Id from Step 3>` i.e. `azure-iot-operations/data/8bed43594758bdc7252817cb47391a06bc4a065ab78b1e63bfe6349439430165/https-//dog_ceo/api/breed/bulldog/list`
+3. Replace characters and strings from config section `TopicStringReplacements` in source Id i.e. `https-dog_ceo/api/breed/hound/list`.
+4. Concatenate strings using the formula `<Base Topic> + <SHA256 Hash from Step 2> + <Source Id from Step 3>` i.e. `azure-iot-operations/data/8bed43594758bdc7252817cb47391a06bc4a065ab78b1e63bfe6349439430165/https-dog_ceo/api/breed/bulldog/list`
 
 > **Note:** AIO's current version (v0.8.32) has a bug in UI which does not allow all valid MQTT topic name characters e.g. dot(.), colon (:) to be configured. `TopicStringReplacements` section in the config below allows you to replace these characters/strings in the default generated (as above) topic name.
 
@@ -102,6 +102,10 @@ Steps used to generate the MQTT topic are:
       {
         "OldValue": ":",
         "NewValue": "-"
+      },
+      { 
+        "OldValue": "//",
+        "NewValue": ""
       }
     ]
   },
@@ -182,6 +186,10 @@ Steps used to generate the MQTT topic are:
       {
         "OldValue": ":",
         "NewValue": "-"
+      },
+      { 
+        "OldValue": "//",
+        "NewValue": ""
       }
     ]
   },
