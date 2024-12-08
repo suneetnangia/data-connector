@@ -3,9 +3,9 @@ namespace Http.Mqtt.Connector.Svc;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using Akri.Mqtt.Connection;
-using Akri.Mqtt.Models;
-using Akri.Mqtt.MqttNetAdapter.Session;
+using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Models;
 using MQTTnet.Exceptions;
 
 public class MqttDataSink : IDataSink
@@ -23,7 +23,7 @@ public class MqttDataSink : IDataSink
 
     private readonly string _username;
 
-    private readonly string _password;
+    private readonly string _passwordFilePath;
 
     private readonly string _satFilePath;
 
@@ -47,7 +47,7 @@ public class MqttDataSink : IDataSink
         string? clientId,
         bool useTls,
         string username,
-        string password,
+        string passwordFilePath,
         string satFilePath,
         string caFilePath,
         string baseTopic,
@@ -63,7 +63,7 @@ public class MqttDataSink : IDataSink
         _clientId = clientId ?? Guid.NewGuid().ToString();
         _useTls = useTls;
         _username = username;
-        _password = password;
+        _passwordFilePath = passwordFilePath;
         _satFilePath = satFilePath;
         _caFilePath = caFilePath;
         _sourceId = sourceId ?? throw new ArgumentNullException(nameof(sourceId));
@@ -130,6 +130,7 @@ public class MqttDataSink : IDataSink
         {
             _logger.LogInformation("MQTT SAT token file location: '{file}'.", _satFilePath);
             _logger.LogInformation("CA cert file location: '{file}'.", _caFilePath);
+            _logger.LogInformation("Password file location: '{file}'.", _passwordFilePath);
 
             MqttConnectionSettings connectionSettings = new(_host)
             {
@@ -137,7 +138,7 @@ public class MqttDataSink : IDataSink
                 ClientId = _clientId,
                 UseTls = _useTls,
                 Username = _username,
-                Password = _password,
+                PasswordFile = _passwordFilePath,
                 SatAuthFile = _satFilePath,
                 CaFile = _caFilePath
             };

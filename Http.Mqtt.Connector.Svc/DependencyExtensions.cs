@@ -1,7 +1,7 @@
 namespace Http.Mqtt.Connector.Svc;
 
 using System.Net;
-using Akri.Mqtt.MqttNetAdapter.Session;
+using Azure.Iot.Operations.Mqtt.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -74,7 +74,7 @@ public static class DependencyExtensions
                         mqtt_options.Value.ClientId,
                         mqtt_options.Value.UseTls,
                         mqtt_options.Value.Username,
-                        mqtt_options.Value.Password,
+                        mqtt_options.Value.PasswordFilePath,
                         mqtt_options.Value.SatFilePath,
                         mqtt_options.Value.CaFilePath,
                         mqtt_options.Value.BaseTopic,
