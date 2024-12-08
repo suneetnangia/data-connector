@@ -160,7 +160,7 @@ Steps used to generate the MQTT topic are:
     "ClientId": "Http.Mqtt.Connector.Svc",
     "UseTls": false,
     "Username": "",
-    "Password": "",
+    "PasswordFilePath": "",
     "BaseTopic": "azure-iot-operations/data/",
     "TopicStringReplacements": [
       {
