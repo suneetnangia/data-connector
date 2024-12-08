@@ -12,7 +12,7 @@ using System.Text;
 using Azure.Iot.Operations.Protocol.Connection;
 using System.Security.Cryptography;
 
-public class MqttDataSinkTests
+public class DataSinkTests
 {
     const string MQTT_HOST = "testhost";
     const int MQTT_PORT = 1883;
@@ -30,7 +30,7 @@ public class MqttDataSinkTests
     private readonly MqttDataSink _mqttDataSink;
     private readonly string _hash;
 
-    public MqttDataSinkTests()
+    public DataSinkTests()
     {
         _loggerMock = new Mock<ILogger<MqttDataSink>>();
         _mqttSessionClientMock = new Mock<MqttSessionClient>(null);
@@ -66,8 +66,7 @@ public class MqttDataSinkTests
         // Arrange
         // Act        
         // Assert        
-        Assert.NotNull(_mqttDataSink);
-        var g = $"{MQTT_CLIENT_ID}-{MQTT_HOST}-{MQTT_PORT}-{MQTT_BASE_TOPIC}/{_hash}/{MQTT_SOURCE_ID}";
+        Assert.NotNull(_mqttDataSink);        
         Assert.Equal($"{MQTT_CLIENT_ID}-{MQTT_HOST}-{MQTT_PORT}-{MQTT_BASE_TOPIC}{_hash}/{MQTT_SOURCE_ID}", _mqttDataSink.Id);
     }
 
