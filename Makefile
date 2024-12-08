@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Default target
-all: build build_container
+all: build test build_container
 
 run build:
 	dotnet run --project Http.Mqtt.Connector.Svc/Http.Mqtt.Connector.Svc.csproj
@@ -19,6 +19,10 @@ build_container:
 package:
 	helm package Http.Mqtt.Connector.Svc/helm/http-mqtt-connector
 
+test:
+	dotnet test Http.Mqtt.Connector.Svc.Tests/Http.Mqtt.Connector.Svc.Tests.csproj
+
 clean:
 	dotnet clean Http.Mqtt.Connector.Svc/Http.Mqtt.Connector.Svc.csproj
+	dotnet clean Http.Mqtt.Connector.Svc.Tests/Http.Mqtt.Connector.Svc.Tests.csproj
 	dotnet nuget locals all --clear
