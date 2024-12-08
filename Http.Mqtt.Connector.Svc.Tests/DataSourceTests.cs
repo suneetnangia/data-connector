@@ -58,11 +58,33 @@ public class DataSourceTests
                return response;
            });
 
-
         // Act
         var response = await _httpDataSource.PullDataAsync(CancellationToken.None);
 
         // Assert
         Assert.Equal("{\"breeds\":[\"greyhound\"]}", response.RootElement.GetRawText());
     }
+
+
+
+    [Fact]
+    public void TestUriMacros()
+    {
+        // Arrange
+        var uri_pattern_1 = new Uri("/api/breed/{yyyy-mm-dd}/list", UriKind.Relative);
+        var uri_pattern_2 = new Uri("/api/breed/{yyyy-mm}/list", UriKind.Relative);
+        
+        // Act
+        var normalized_uri_1 = uri_pattern_1.Normalize();
+        var normalized_uri_2 = uri_pattern_2.Normalize();
+
+
+        // Assert
+        var current_date_pattern_1 = DateTime.Now.ToString("yyyy-MM-dd");
+        var current_date_pattern_2 = DateTime.Now.ToString("yyyy-MM");
+
+        Assert.Equal($"/api/breed/{current_date_pattern_1}/list", normalized_uri_1.ToString());
+        Assert.Equal($"/api/breed/{current_date_pattern_2}/list", normalized_uri_2.ToString());
+    }
+
 }
