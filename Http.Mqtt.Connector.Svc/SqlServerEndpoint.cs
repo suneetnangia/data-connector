@@ -11,9 +11,9 @@ public class SqlServerEndpoint
 
     public required string Password { get; set; }
 
-    public required string InitialCatalog { get; set; }
-
     public bool TrustServerCertificate { get; set; } = false;
+
+    public string? CertAuthorityServerPath { get; set; }
 
     public double TimeOutInSeconds { get; set; } = 10;
 

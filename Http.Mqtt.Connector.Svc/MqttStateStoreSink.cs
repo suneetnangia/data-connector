@@ -32,8 +32,6 @@ public class MqttStateStoreSink : IDataSink
 
     private readonly string _key;
 
-    private readonly string _sourceId;
-
     private int _initialBackoffDelayInMilliseconds;
 
     private int _maxBackoffDelayInMilliseconds;
@@ -50,7 +48,6 @@ public class MqttStateStoreSink : IDataSink
         string satFilePath,
         string caFilePath,
         string key,
-        string sourceId,
         int initialBackoffDelayInMilliseconds = 500,
         int maxBackoffDelayInMilliseconds = 10_000)
     {
@@ -66,7 +63,6 @@ public class MqttStateStoreSink : IDataSink
         _satFilePath = satFilePath;
         _caFilePath = caFilePath;
         _key = key ?? throw new ArgumentNullException(nameof(key));
-        _sourceId = sourceId ?? throw new ArgumentNullException(nameof(sourceId));
         _initialBackoffDelayInMilliseconds = initialBackoffDelayInMilliseconds;
         _maxBackoffDelayInMilliseconds = maxBackoffDelayInMilliseconds;
 

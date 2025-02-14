@@ -77,12 +77,13 @@ public static class DependencyExtensions
 
                 foreach (var server in sql_options.Value.SqlServerEndpoints)
                 {
-                    Console.WriteLine($"Server: {server.DataSource}, {server.InitialCatalog}, {server.Username}, ***, {server.TrustServerCertificate}");
+                    Console.WriteLine($"Server: {server.DataSource}, {server.Username}, ***, {server.TrustServerCertificate}");
 
                     var mqtt_state_store_options = provider.GetRequiredService<IOptions<MqttStateStoreOptions>>();
 
                     foreach (var query in server.Queries)
                     {
+                        // TODO add more connection string properties to allow for other auth types
                         var db_connection_builder = sql_client_factory.CreateConnectionStringBuilder();
                         db_connection_builder["Data Source"] = server.DataSource;
                         db_connection_builder["User Id"] = server.Username;
@@ -110,7 +111,6 @@ public static class DependencyExtensions
                             mqtt_state_store_options.Value.SatFilePath,
                             mqtt_state_store_options.Value.CaFilePath,
                             query.Key,
-                            data_source.Id,
                             initialBackoffDelayInMilliseconds: 500,
                             maxBackoffDelayInMilliseconds: 10_000);
 
