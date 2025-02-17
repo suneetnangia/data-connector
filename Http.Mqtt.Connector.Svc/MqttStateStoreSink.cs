@@ -12,7 +12,7 @@ public class MqttStateStoreSink : IDataSink
 {
     private readonly ILogger _logger;
     private readonly MqttSessionClient _mqttSessionClient;
-    private readonly StateStoreClient _stateStoreClient;
+    private readonly IStateStoreClient _stateStoreClient;
 
     private readonly string _host;
 
@@ -39,6 +39,7 @@ public class MqttStateStoreSink : IDataSink
     public MqttStateStoreSink(
         ILogger logger,
         MqttSessionClient mqttSessionClient,
+        IStateStoreClient stateStoreClient,
         string host,
         int port,
         string? clientId,
@@ -53,7 +54,7 @@ public class MqttStateStoreSink : IDataSink
     {
         _logger = logger;
         _mqttSessionClient = mqttSessionClient ?? throw new ArgumentNullException(nameof(mqttSessionClient));
-        _stateStoreClient = new StateStoreClient(_mqttSessionClient);
+        _stateStoreClient = stateStoreClient ?? throw new ArgumentNullException(nameof(stateStoreClient));
         _host = host ?? throw new ArgumentNullException(nameof(host));
         _port = port;
         _clientId = clientId ?? Guid.NewGuid().ToString();
@@ -88,7 +89,7 @@ public class MqttStateStoreSink : IDataSink
 
         var content = formattedContent.ToString();
 
-        // Set the key to the data passed in method argument, retry until successful
+        // Set the key to the data passed in method argument, retry until successful or circuit breaker is triggered.
         var successfulSet = false;
         int backoff_delay_in_milliseconds = _initialBackoffDelayInMilliseconds;
         while (!successfulSet)

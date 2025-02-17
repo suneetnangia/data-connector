@@ -2,6 +2,7 @@ namespace Http.Mqtt.Connector.Svc;
 
 using System.Net;
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -58,6 +59,7 @@ public static class DependencyExtensions
                 var sql_client_factory = provider.GetRequiredService<SqlClientFactory>();
 
                 var mqtt_state_session_client = new MqttSessionClient();
+                var state_store_client = new StateStoreClient(mqtt_state_session_client);
 
                 var sqlRetryPolicy = Policy
                 .Handle<SqlException>()
@@ -77,13 +79,11 @@ public static class DependencyExtensions
 
                 foreach (var server in sql_options.Value.SqlServerEndpoints)
                 {
-                    Console.WriteLine($"Server: {server.DataSource}, {server.Username}, ***, {server.TrustServerCertificate}");
-
                     var mqtt_state_store_options = provider.GetRequiredService<IOptions<MqttStateStoreOptions>>();
 
                     foreach (var query in server.Queries)
                     {
-                        // TODO add more connection string properties to allow for other auth types
+                        // TODO add more connection string properties to allow for other Auth types
                         var db_connection_builder = sql_client_factory.CreateConnectionStringBuilder();
                         db_connection_builder["Data Source"] = server.DataSource;
                         db_connection_builder["User Id"] = server.Username;
@@ -102,6 +102,7 @@ public static class DependencyExtensions
                         var data_sink = new MqttStateStoreSink(
                             provider.GetRequiredService<ILogger<MqttStateStoreSink>>(),
                             mqtt_state_session_client,
+                            state_store_client,
                             mqtt_state_store_options.Value.Host,
                             mqtt_state_store_options.Value.Port,
                             mqtt_state_store_options.Value.ClientId,

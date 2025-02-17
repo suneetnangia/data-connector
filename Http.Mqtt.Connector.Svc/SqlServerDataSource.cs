@@ -55,6 +55,7 @@ public class SqlServerDataSource : IDataSource
 
                 using (var command = connection.CreateCommand())
                 {
+                    // NOTE: Evaluate SQL injection risk
                     command.CommandText = _query;
                     command.CommandType = CommandType.Text;
 
