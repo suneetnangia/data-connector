@@ -4,13 +4,12 @@ using System.Data;
 using System.Data.Common;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Microsoft.Data.SqlClient;
 using Polly;
 
 public class SqlServerDataSource : IDataSource
 {
     private readonly ILogger _logger;
-    private readonly SqlClientFactory _sqlClientFactory;
+    private readonly DbProviderFactory _dbProviderFactory;
 
     private readonly DbConnectionStringBuilder _dbConnectionStringBuilder;
     private readonly string _query;
@@ -19,14 +18,14 @@ public class SqlServerDataSource : IDataSource
 
     public SqlServerDataSource(
         ILogger logger,
-        SqlClientFactory sqlClientFactory,
+        DbProviderFactory dbProviderFactory,
         DbConnectionStringBuilder connectionStringBuilder,
         IAsyncPolicy retryPolicy,
         string query,
         int pollingInternalInMilliseconds)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _sqlClientFactory = sqlClientFactory ?? throw new ArgumentNullException(nameof(sqlClientFactory));
+        _dbProviderFactory = dbProviderFactory ?? throw new ArgumentNullException(nameof(dbProviderFactory));
         _dbConnectionStringBuilder = connectionStringBuilder ?? throw new ArgumentNullException(nameof(connectionStringBuilder));
         _retryPolicy = retryPolicy ?? throw new ArgumentNullException(nameof(retryPolicy));
         _query = query ?? throw new ArgumentNullException(nameof(query));
@@ -48,8 +47,13 @@ public class SqlServerDataSource : IDataSource
         return await _retryPolicy.ExecuteAsync(
             async (stoppingToken) =>
         {
-            using (var connection = _sqlClientFactory.CreateConnection())
+            using (var connection = _dbProviderFactory.CreateConnection())
             {
+                if (connection == null)
+                {
+                    throw new InvalidOperationException("Failed to create a database connection.");
+                }
+
                 connection.ConnectionString = _dbConnectionStringBuilder.ConnectionString;
                 await connection.OpenAsync(stoppingToken);
 

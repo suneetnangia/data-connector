@@ -11,6 +11,7 @@ public class SqlServerEndpoint
 
     public required string Password { get; set; }
 
+    // Currently assuming trusting the server certificate - in future add for injecting custom CA
     public bool TrustServerCertificate { get; set; } = false;
 
     public string? CertAuthorityServerPath { get; set; }

@@ -54,6 +54,7 @@ public static class DependencyExtensions
 
             var sql_options = provider.GetRequiredService<IOptions<SqlOptions>>();
 
+            // Currently DI will add SQL server endpoint if the configuration is present. In future review compile flags to add SQL server endpoint.
             if (sql_options.Value.SqlServerEndpoints is not null)
             {
                 var sql_client_factory = provider.GetRequiredService<SqlClientFactory>();

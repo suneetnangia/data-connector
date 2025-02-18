@@ -1,6 +1,42 @@
-# Sql Server Data source and AIO DSS reference data sink
+# Sql Server Data source and AIO DSS reference data sink - App Settings Guide
 
-## Example appsettings.json for AIO MQTT broker
+## Configuration Guide
+
+The appsettings.json example below is configured to poll the following SQl based endpoints based on a SQL query definition and send the resulting query to AIO's Distributed Data Store at the configured `key`. Every update to the key value is complete, meaning we replace its entire contents on every run.
+
+## Supported Configurations
+
+### SQL Server Endpoint element
+
+You can connect to multiple servers, with a set of one or more queries per server. Following is an example of the settings for each of the items in the array `SqlServerEndpoints`.
+
+```json
+{
+  "DataSource": "localhost",
+  "Port": 1433,
+  "Username": "",
+  "Password": "",
+  "TimeOutInSeconds": 60000,
+  "TrustServerCertificate": true,
+  "Queries": [ ]
+}
+
+```
+
+### Queries collection per endpoint
+
+Each element in the `Queries` array allows for configuring a SQL query to a database within the server. The `key` is the name of the DSS key to upsert.
+
+```json
+{
+  "Query": "SELECT * FROM Mytable",
+  "Key": "myreftable",
+  "DatabaseName": "mydb",
+  "PollingInternalInMilliseconds": 10000
+}
+```
+
+## Full example appsettings.json for AIO DSS
 
 ```json
 {
