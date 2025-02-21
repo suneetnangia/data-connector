@@ -96,7 +96,7 @@ public class MqttStateStoreSink : IDataSink
         {
             try
             {
-                var response = await _stateStoreClient.SetAsync(_key, content, cancellationToken: stoppingToken).ConfigureAwait(true);
+                var response = await _stateStoreClient.SetAsync(_key, content, cancellationToken: stoppingToken);
 
                 if (response.Success)
                 {

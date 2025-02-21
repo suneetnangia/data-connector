@@ -2,7 +2,9 @@
 
 ## Configuration Guide
 
-The appsettings.json example below is configured to poll the following SQl based endpoints based on a SQL query definition and send the resulting query to AIO's Distributed Data Store at the configured `key`. Every update to the key value is complete, meaning we replace its entire contents on every run.
+The appsettings.json example below is configured to poll the following SQL based endpoints based on a SQL query definition and send the resulting query to AIO's Distributed Data Store (DSS) at the configured `key`. Every update to the key value is complete, meaning we replace its entire contents on every run.
+
+> NOTE: The format of the data stored into the DSS is JSON Lines, as required by Data flow's [enrich](https://learn.microsoft.com/azure/iot-operations/connect-to-cloud/concept-dataflow-enrich) with reference data feature.
 
 ## Supported Configurations
 
