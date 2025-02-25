@@ -32,7 +32,7 @@ This repo currently supports the following Data Source-Sink Pairs:
    2. For REST-MQTT Non-AIO [here](docs/AppSettingsHttpMqtt.md#Example-appsettings.json-for-non-AIO-MQTT-broker).
    3. For SQL-DSS AIO Connector [here](docs/AppSettingsSqlDss.md).
 
-3. Update configuration file with your specifics, refer to the specific links in step 2 above.
+3. Update configuration file with your specifics, refer to the links in step 2 above.
 
 4. Install Helm package (appsettings.json content is stored as a K8s secret):
    1. For AIO:
