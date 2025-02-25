@@ -7,10 +7,12 @@ This repo currently supports the following Data Source-Sink Pairs:
 1. RESTful APIs to MQTT Broker
 2. SQL Server to AIO Distributed Data Store (DSS)
 
-## Overview
+## Design Overview
 
 ![Design](docs/Design.png)
+
 > **Http-MQTT:** To understand MQTT topic generation and its customization options please refer to the document [here](docs/AppSettingsHttpMqtt.md#Supported-Customizations).
+
 > **SQL-DSS:** To understand SQL and DS customization options please refer to the document [here](docs/AppSettingsSqlDss.md#Supported-Customizations).
 
 ## Features
