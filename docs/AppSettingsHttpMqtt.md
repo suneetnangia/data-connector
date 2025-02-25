@@ -1,4 +1,4 @@
-# App Settings File Guide
+# App Settings File Guide - Http Data Source and MQTT Data Sink
 
 ## Configuration Guide
 

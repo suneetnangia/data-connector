@@ -1,4 +1,4 @@
-# Sql Server Data source and AIO DSS reference data sink - App Settings Guide
+# App Settings File Guide - Sql Server Data Source and AIO DSS Reference Data Sink
 
 ## Configuration Guide
 
@@ -8,7 +8,7 @@ The appsettings.json example below is configured to poll the following SQL based
 
 ## Supported Configurations
 
-### SQL Server Endpoint element
+### SQL Server Endpoint Element
 
 You can connect to multiple servers, with a set of one or more queries per server. Following is an example of the settings for each of the items in the array `SqlServerEndpoints`.
 
@@ -25,7 +25,7 @@ You can connect to multiple servers, with a set of one or more queries per serve
 
 ```
 
-### Queries collection per endpoint
+### Queries Collection Per Endpoint
 
 Each element in the `Queries` array allows for configuring a SQL query to a database within the server. The `key` is the name of the DSS key to upsert.
 
@@ -38,7 +38,7 @@ Each element in the `Queries` array allows for configuring a SQL query to a data
 }
 ```
 
-## Full example appsettings.json for AIO DSS
+## Full Example appsettings.json for AIO DSS
 
 ```json
 {
