@@ -37,7 +37,7 @@ public sealed class Worker : BackgroundService
 
                         await dataSourceSink.Value.PushDataAsync(source_data, stoppingToken);
 
-                        _logger.LogTrace("Data source '{id}', published data to MQTT, data content: {time}", dataSourceSink.Key.Id, source_data.RootElement.ToString());
+                        _logger.LogTrace("Data source '{id}', published data to sink, data content: {time}", dataSourceSink.Key.Id, source_data.RootElement.ToString());
                         _logger.LogTrace("Data source '{id}', waiting for next polling cycle (UTC): {time}, current time {time}", dataSourceSink.Key.Id, DateTimeOffset.UtcNow.AddMilliseconds(dataSourceSink.Key.PollingInternalInMilliseconds), DateTimeOffset.UtcNow);
 
                         // Delay for the configured polling interval.
