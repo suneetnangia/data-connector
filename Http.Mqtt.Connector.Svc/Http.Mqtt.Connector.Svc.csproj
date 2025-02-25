@@ -11,9 +11,9 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.IoT.Operations.Mqtt" Version="0.8.0" />
-    <PackageReference Include="Azure.IoT.Operations.Protocol" Version="0.8.0" />
-    <PackageReference Include="Azure.IoT.Operations.Services" Version="0.8.0" />
+    <PackageReference Include="Azure.IoT.Operations.Mqtt" Version="0.9.0" />
+    <PackageReference Include="Azure.IoT.Operations.Protocol" Version="0.9.0" />
+    <PackageReference Include="Azure.IoT.Operations.Services" Version="0.9.0" />
     <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
