@@ -185,6 +185,20 @@ entries:
   data-connector:
   - apiVersion: v2
     appVersion: 0.6.0
+    created: "2025-02-26T14:35:19.610210108Z"
+    description: A Helm chart for deploying data connector on K8s, preview version.
+    digest: fda3fb3d82d12c21f47aae253370ffa85536ebe85f762027f43e43fbfe8449c6
+    keywords:
+    - azure
+    - edge
+    - data
+    name: data-connector
+    type: application
+    urls:
+    - data-connector-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.6.0
     created: "2025-02-26T14:23:06.939980964Z"
     description: A Helm chart for deploying data connector on K8s, preview version.
     digest: a658bf0df38f2f1dd7a70221b2f98cb3afa6c3647b6f0ed8f0017f768abab311
@@ -348,4 +362,4 @@ entries:
     urls:
     - http-mqtt-connector-0.0.1.tgz
     version: 0.0.1
-generated: "2025-02-26T14:35:15.731942773Z"
+generated: "2025-02-26T14:35:19.610252578Z"
