@@ -48,13 +48,10 @@ public static class DependencyExtensions
     {
         services.AddSingleton<SqlClientFactory>(SqlClientFactory.Instance);
 
-        services.AddSingleton<ApplicationContext>();
-
         // Singleton data source objects per endpoint.
         services.AddSingleton<Dictionary<IDataSource, IDataSink>>(provider =>
         {
             var dataSourceSinkMap = new Dictionary<IDataSource, IDataSink>();
-            var applicationContext = provider.GetRequiredService<ApplicationContext>();
             var sql_options = provider.GetRequiredService<IOptions<SqlOptions>>();
 
             // Currently DI will add SQL server endpoint if the configuration is present. In future review compile flags to add SQL server endpoint.
@@ -63,7 +60,7 @@ public static class DependencyExtensions
                 var sql_client_factory = provider.GetRequiredService<SqlClientFactory>();
 
                 var mqtt_state_session_client = new MqttSessionClient();
-                var state_store_client = new StateStoreClient(applicationContext, mqtt_state_session_client);
+                var state_store_client = new StateStoreClient(new ApplicationContext(), mqtt_state_session_client);
 
                 var sqlRetryPolicy = Policy
                 .Handle<SqlException>()
