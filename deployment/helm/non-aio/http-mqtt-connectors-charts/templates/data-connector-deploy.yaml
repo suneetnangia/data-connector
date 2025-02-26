@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-connector-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-connector
+  template:
+    metadata:
+      labels:
+        app: data-connector
+    spec:
+      containers:
+        - name: data-connector
+          image: "{{ .Values.containerImage }}"
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: config
+              mountPath: /app/settings
+      volumes:
+        - name: config
+          secret:
+            secretName: data-connector-secret
+            items:
+              - key: appsettings.json
+                path: appsettings.json

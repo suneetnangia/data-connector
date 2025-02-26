@@ -1,8 +1,8 @@
 apiVersion: v2
-name: data-connector
-description: A Helm chart for deploying data connector on K8s, preview version.
+name: aio-data-connector
+description: A Helm chart for deploying AIO compatible data connector on K8s, preview version.
 keywords:
-    - azure    
+    - azure
     - edge
     - data
 # A chart can be either an 'application' or a 'library' chart.
