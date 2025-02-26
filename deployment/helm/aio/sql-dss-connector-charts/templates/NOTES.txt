@@ -1,9 +1,0 @@
-You have installed release {{ .Chart.Version}} of {{ .Chart.Name }} of SQL DSS Connector, pre-release version.
-
-To learn more about the release, try:
-
-  $ helm status {{ .Release.Name }}
-  $ helm get all {{ .Release.Name }}
-
-To uninstall this chart please use the following command:
-  $ helm uninstall {{ .Release.Name }} --namespace {{ .Release.Namespace }}

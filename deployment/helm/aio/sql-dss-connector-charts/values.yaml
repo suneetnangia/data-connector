@@ -1,5 +1,0 @@
-# SQL DSS Connector module settings
-containerImage: "ghcr.io/suneetnangia/sql-dss-connector:main"
-# This is for local testing
-# containerImage: "suneetnangia/sql-dss-connector:v0.1"
-appsettingsContent: ""

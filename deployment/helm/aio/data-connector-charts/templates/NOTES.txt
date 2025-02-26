@@ -1,4 +1,4 @@
-You have installed release {{ .Chart.Version}} of {{ .Chart.Name }} of Data Connector, pre-release version.
+You have installed release {{ .Chart.Version}} of {{ .Chart.Name }} of AIO Data Connector, pre-release version.
 
 To learn more about the release, try:
 
