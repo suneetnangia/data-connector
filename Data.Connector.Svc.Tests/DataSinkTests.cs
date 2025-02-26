@@ -11,6 +11,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using System.Text;
 using Azure.Iot.Operations.Protocol.Connection;
 using System.Security.Cryptography;
+using System.Buffers;
 
 public class DataSinkTests
 {
@@ -89,7 +90,7 @@ public class DataSinkTests
         // Assert
         _mqttSessionClientMock.Verify(m => m.PublishAsync(It.Is<MqttApplicationMessage>(m => m.Topic == $"{MQTT_BASE_TOPIC}{_hash}/{MQTT_SOURCE_ID}"), It.IsAny<CancellationToken>()));
         _mqttSessionClientMock.Verify(m => m.PublishAsync(It.Is<MqttApplicationMessage>(m => m.QualityOfServiceLevel == MqttQualityOfServiceLevel.AtLeastOnce), It.IsAny<CancellationToken>()));
-        _mqttSessionClientMock.Verify(m => m.PublishAsync(It.Is<MqttApplicationMessage>(m => m.PayloadSegment.SequenceEqual(expected_payload_segment)), It.IsAny<CancellationToken>()));
+        _mqttSessionClientMock.Verify(m => m.PublishAsync(It.Is<MqttApplicationMessage>(m => m.Payload.ToArray().SequenceEqual(expected_payload_segment)), It.IsAny<CancellationToken>()));
     }
 
     [Fact]
