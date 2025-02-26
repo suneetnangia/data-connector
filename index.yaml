@@ -3,6 +3,21 @@ entries:
   aio-data-connector:
   - apiVersion: v2
     appVersion: 0.6.0
+    created: "2025-02-26T14:35:15.731902748Z"
+    description: A Helm chart for deploying AIO compatible data connector on K8s,
+      preview version.
+    digest: b48c4d1d9d6bf9b17f093c798226c899b25d2b25a27651a9817aeb8f8697630b
+    keywords:
+    - azure
+    - edge
+    - data
+    name: aio-data-connector
+    type: application
+    urls:
+    - aio-data-connector-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.6.0
     created: "2025-02-26T14:23:04.053750359Z"
     description: A Helm chart for deploying AIO compatible data connector on K8s,
       preview version.
@@ -333,4 +348,4 @@ entries:
     urls:
     - http-mqtt-connector-0.0.1.tgz
     version: 0.0.1
-generated: "2025-02-26T14:23:06.94003783Z"
+generated: "2025-02-26T14:35:15.731942773Z"
