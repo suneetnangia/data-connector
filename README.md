@@ -25,7 +25,7 @@ This repo currently supports the following Data Source-Sink Pairs:
 
 1. Add Helm Repo:
 
-    ```helm repo add aio-extensions https://raw.githubusercontent.com/suneetnangia/http-mqtt-connector/release_management```
+    ```helm repo add aio-extensions https://raw.githubusercontent.com/suneetnangia/data-connector/release_management```
 
 2. Copy configuration file from the example:
    1. For REST-MQTT AIO Connector [here](docs/AppSettingsHttpMqtt.md#Example-appsettings.json-for-AIO-MQTT-broker).
@@ -37,15 +37,15 @@ This repo currently supports the following Data Source-Sink Pairs:
 4. Install Helm package (appsettings.json content is stored as a K8s secret):
    1. For AIO:
 
-        ```helm install http-mqtt-connector-01 aio-extensions/aio-http-mqtt-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
+        ```helm install data-connector-01 aio-extensions/aio-data-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
 
    2. For non-AIO
 
-        ```helm install http-mqtt-connector-01 aio-extensions/http-mqtt-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
+        ```helm install data-connector-01 aio-extensions/data-connector --namespace azure-iot-operations --create-namespace --set-file appsettingsContent=$pwd./<path to your>/appsettings.json```
 
 5. Uninstall Helm package (after evaluation):
 
-    ```helm uninstall http-mqtt-connector-01 -n azure-iot-operations```
+    ```helm uninstall data-connector-01 -n azure-iot-operations```
 
 ## Backlog
 
@@ -53,4 +53,4 @@ Please refer to the project board [here](https://github.com/users/suneetnangia/p
 
 ## Development Loop
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/suneetnangia/http-mqtt-connector/)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/suneetnangia/data-connector/)

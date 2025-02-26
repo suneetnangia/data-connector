@@ -73,7 +73,7 @@ Steps used to generate the MQTT topic are:
   "Mqtt": {
     "Host": "aio-broker",
     "Port": 18883,
-    "ClientId": "Http.Mqtt.Connector.Svc",
+    "ClientId": "Data.Connector.Svc",
     "UseTls": true,
     "SatFilePath": "/var/run/secrets/tokens/broker-sat",
     "CaFilePath": "/var/run/certs/ca.crt",
@@ -157,7 +157,7 @@ Steps used to generate the MQTT topic are:
   "Mqtt": {
     "Host": "broker.emqx.io",
     "Port": 1883,
-    "ClientId": "Http.Mqtt.Connector.Svc",
+    "ClientId": "Data.Connector.Svc",
     "UseTls": false,
     "Username": "",
     "PasswordFilePath": "",

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aio-data-connector-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-connector
+  template:
+    metadata:
+      labels:
+        app: data-connector
+    spec:
+      # Use the "mqtt-client" service account which comes with default deployment
+      # Otherwise create it with `kubectl create serviceaccount mqtt-client -n azure-iot-operations`
+      serviceAccountName: mqtt-client
+      containers:
+        - name: data-connector
+          image: "{{ .Values.containerImage }}"
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: config
+              mountPath: /app/settings              
+            - name: broker-sat
+              mountPath: /var/run/secrets/tokens
+            - name: trust-bundle
+              mountPath: /var/run/certs
+      volumes:
+        - name: config
+          secret:
+            secretName: aio-data-connector-secret
+            items:
+              - key: appsettings.json
+                path: appsettings.json
+        - name: broker-sat
+          projected:
+            sources:
+            - serviceAccountToken:
+                path: broker-sat
+                audience: aio-internal # Must match audience in BrokerAuthentication
+                expirationSeconds: 86400
+        - name: trust-bundle
+          configMap:
+            name: azure-iot-operations-aio-ca-trust-bundle # Default root CA cert
