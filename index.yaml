@@ -34,6 +34,21 @@ entries:
   aio-http-mqtt-connector:
   - apiVersion: v2
     appVersion: 0.5.0
+    created: "2025-04-15T09:56:04.606646726Z"
+    description: A Helm chart for deploying AIO compatible Http to MQTT connector
+      on K8s, preview version.
+    digest: ba65bc35ce58e9f5cc8fa634982653c1c308eede34c550399fc3e4ba9d48da7c
+    keywords:
+    - azure
+    - edge
+    - data
+    name: aio-http-mqtt-connector
+    type: application
+    urls:
+    - aio-http-mqtt-connector-0.1.2-canary.tgz
+    version: 0.1.2-canary
+  - apiVersion: v2
+    appVersion: 0.5.0
     created: "2024-12-08T14:48:19.126388746Z"
     description: A Helm chart for deploying AIO compatible Http to MQTT connector
       on K8s, preview version.
@@ -377,4 +392,4 @@ entries:
     urls:
     - http-mqtt-connector-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-15T09:26:27.344939508Z"
+generated: "2025-04-15T09:56:04.606748075Z"
