@@ -1,5 +1,5 @@
 # Http Mqtt Connector module settings
-containerImage: "ghcr.io/suneetnangia/http-mqtt-connector:main"
+containerImage: "ghcr.io/suneetnangia/http-mqtt-connector:canary"
 # This is for local testing
 #containerImage: "suneetnangia/http-mqtt-connector:v0.1"
 appsettingsContent: ""
